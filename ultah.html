@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selamat Ultah ibuu</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Poppins & Cormorant Garamond -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@1,600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bts-purple: #9b59b6; 
+            --bts-magenta: #e91e63;
+            --space-dark: #0a0a18;
+            --text-light: #EAEAEA;
+            --card-bg: rgba(23, 22, 48, 0.7);
+        }
+        body {
+            background-color: var(--space-dark);
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-light);
+            overflow-x: hidden;
+            opacity: 0; 
+            transition: opacity 0.5s ease-in-out;
+        }
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--space-dark);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.75s ease;
+        }
+        .preloader-logo {
+            width: 80px;
+            height: auto;
+            animation: pulse 2s infinite ease-in-out;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.7; }
+        }
+        #particles-js, #confetti-canvas {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            pointer-events: none;
+        }
+        .bts-gradient-text {
+            background: linear-gradient(45deg, var(--bts-purple), var(--bts-magenta));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .card-bg {
+            background-color: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        .card-bg:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.2), 0 0 20px rgba(155, 89, 182, 0.4);
+        }
+        .cormorant-italic {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+            font-style: italic;
+        }
+        .bts-logo-container {
+            width: 250px;
+            height: auto;
+        }
+        .bts-logo svg {
+            overflow: visible;
+            filter: drop-shadow(0 0 10px rgba(155, 89, 182, 0.5));
+        }
+        #parallax-image {
+            height: 140%;
+            width: 100%;
+            object-fit:fill;
+            position: absolute;
+            top: 0;
+            left:0;
+        }
+        .quote-text-shadow {
+            text-shadow: 0px 2px 5px rgba(0, 0, 0, 0.8);
+        }
+        #music-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 50%;
+            padding: 10px;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        #music-toggle:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Preloader -->
+    <div id="preloader">
+        <svg class="preloader-logo" viewBox="0 0 101 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15.533 52.5L1 1.5H12.133L21.866 38.3L31.6 1.5H42.733L52.466 38.3L62.2 1.5H73.333L83.066 38.3L92.8 1.5H100L84.467 52.5H72.8L62.733 15.233L52.667 52.5H41.533L31.467 15.233L21.4 52.5H15.533Z" fill="white"/>
+        </svg>
+    </div>
+
+    <!-- Backgrounds -->
+    <div id="particles-js"></div>
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- KONTROL MUSIK & AUDIO PLAYER -->
+    <audio autoplay id="background-music" loop>
+        <!-- Ganti src dengan path ke file musik Anda -->
+        <source src="vid/BTSPermission.mp3" type="audio/mp3">
+    </audio>
+    <button id="music-toggle" aria-label="Putar/Jeda Musik">
+        <i id="music-icon" data-lucide="music"></i>
+    </button>
+
+    <div class="content-wrapper">
+        
+        <header id="hero" class="h-screen flex flex-col items-center justify-center text-center p-4 relative overflow-hidden">
+            <div class="bts-logo-container">
+                <svg viewBox="0 0 102 102" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#FFFFFF" />
+                            <stop offset="100%" stop-color="#E0E0E0" />
+                        </linearGradient>
+                    </defs>
+                    <path id="logo-left-final" d="M 11 0 L 46 25 L 46 85 L 11 102 Z" fill="url(#logoGradient)"/>
+                    <path id="logo-right-final" d="M 91 0 L 56 25 L 56 85 L 91 102 Z" fill="url(#logoGradient)"/>
+                </svg>
+            </div>
+            <div id="splash-text" class="absolute flex flex-col items-center justify-center opacity-0 mt-56 pointer-events-none">
+                <h3 id="splash-bts" class="text-4xl font-bold tracking-widest mt-24">BTS</h3>
+                <h4 id="splash-army" class="text-xl font-semibold tracking-wider mt-1">ARMY</h4>
+            </div>
+            <div id="hero-text" class="absolute inset-0 flex flex-col items-center justify-center opacity-0 pointer-events-none">
+                <h1 class="text-4xl md:text-6xl font-bold mb-4">Untuk Ibunda Barakallah fii umrik</h1>
+                <h2 class="text-2xl md:text-4xl font-semibold bts-gradient-text cormorant-italic">Selamat Ulang Tahun yang ke 52</h2>
+            </div>
+            <a href="#our-north-star" id="scroll-indicator" class="absolute bottom-10 opacity-0">
+                <i data-lucide="arrow-down" class="w-8 h-8 animate-bounce"></i>
+            </a>
+        </header>
+
+        <main id="main-content" class="space-y-32">
+            <!-- Section 1: Our North Star -->
+            <section id="our-north-star" class="max-w-6xl mx-auto px-4 py-16 flex flex-col md:flex-row items-center gap-12">
+                <div id="image-container" class="w-full md:w-1/2 relative group">
+                    <img id="mom-photo" src="img/mom.jpeg" alt="Foto Ibu" class="rounded-2xl shadow-2xl w-full h-auto object-cover relative z-10">
+                    <img id="frame-overlay" src="img/BT21.png" alt="Bingkai Hiasan" class="absolute inset-0 w-full h-full object-cover z-20 transition-transform duration-500 group-hover:scale-105 group-hover:rotate-1">
+                </div>
+                <div class="w-full md:w-1/2">
+                    <h3 class="section-title text-4xl font-bold bts-gradient-text mb-6">Selamat ulang tahun We wish you all the best</h3>
+                    <p class="section-text text-gray-300 mb-4 leading-relaxed">
+                        Ibu, dalam luasnya kehidupan, engkau adalah bintang utara yang selalu memandu. Cahayamu tidak pernah redup, cintamu tidak pernah lekang. Terima kasih telah menjadi kompas dalam setiap langkah kami.
+                    </p>
+                    <p class="section-text text-gray-300 leading-relaxed">
+                        Di hari istimewa ini, kami hanya ingin mengatakan betapa berartinya dirimu. Engkau adalah melodi terindah dalam hidup kami.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Section 2: Tujuh Pesan dari Semesta -->
+            <section id="memory-constellation" class="relative py-28">
+                <div class="absolute inset-0 z-0 opacity-20 overflow-hidden">
+                    <img id="parallax-image" src="img/BT21all.jpg" alt="Parallax Background">
+                </div>
+                <div class="relative z-10 max-w-6xl mx-auto px-4">
+                    <div class="text-center">
+                        <h3 class="section-title text-4xl font-bold bts-gradient-text mb-4">Seven Quotes</h3>
+                        <p class="section-text text-gray-300 max-w-3xl mx-auto">Setiap anggota adalah bintang, dan setiap pesan adalah cahaya sama sepertimu bagi kami.</p>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        
+                        <div class="quote-card relative card-bg rounded-2xl p-6 h-full overflow-hidden flex flex-col justify-between">
+                            <img src="img/RMM.jpg" alt="RM" class="absolute inset-0 w-full h-full object-cover opacity-20 filter grayscale transition-transform duration-500 hover:scale-110">
+                            <div class="relative z-10">
+                                <blockquote class="text-lg italic text-gray-200 font-medium quote-text-shadow">"Tidak peduli siapa dirimu, dari mana asalmu, warna kulitmu, identitas gendermu: suarakan dirimu."</blockquote>
+                                <footer class="mt-4 text-right font-bold bts-gradient-text quote-text-shadow">- RM</footer>
+                            </div>
+                        </div>
+
+                        <div class="quote-card relative card-bg rounded-2xl p-6 h-full overflow-hidden flex flex-col justify-between">
+                            <img src="img/jin.jpg" alt="Jin" class="absolute inset-0 w-full h-full object-fit opacity-20 filter grayscale transition-transform duration-500 hover:scale-110">
+                            <div class="relative z-10">
+                                <blockquote class="text-lg italic text-gray-200 font-medium quote-text-shadow">"Kehadiranmu bisa memberikan kebahagiaan. Aku harap kamu mengingat itu."</blockquote>
+                                <footer class="mt-4 text-right font-bold bts-gradient-text quote-text-shadow">- Jin</footer>
+                            </div>
+                        </div>
+
+                        <div class="quote-card relative card-bg rounded-2xl p-6 h-full overflow-hidden flex flex-col justify-between">
+                            <img src="img/suga.jpg" alt="SUGA" class="absolute inset-0 w-full h-full object-cover opacity-20 filter grayscale transition-transform duration-500 hover:scale-110">
+                            <div class="relative z-10">
+                                <blockquote class="text-lg italic text-gray-200 font-medium quote-text-shadow">"Hidup itu sulit, dan tidak semuanya berjalan baik, tapi kita harus berani dan melanjutkan hidup kita."</blockquote>
+                                <footer class="mt-4 text-right font-bold bts-gradient-text quote-text-shadow">- SUGA</footer>
+                            </div>
+                        </div>
+
+                        <div class="quote-card relative card-bg rounded-2xl p-6 h-full overflow-hidden flex flex-col justify-between">
+                             <img src="img/Jhop1.jpg" alt="j-hope" class="absolute inset-0 w-full h-full object-fit opacity-20 filter grayscale transition-transform duration-500 hover:scale-110">
+                             <div class="relative z-10">
+                                <blockquote class="text-lg italic text-gray-200 font-medium quote-text-shadow">"Senyuman yang hangat adalah bahasa kebaikan yang universal."</blockquote>
+                                <footer class="mt-4 text-right font-bold bts-gradient-text quote-text-shadow">- j-hope</footer>
+                             </div>
+                        </div>
+
+                        <div class="quote-card relative card-bg rounded-2xl p-6 h-full overflow-hidden flex flex-col justify-between">
+                            <img src="img/jimin.jpg" alt="Jimin" class="absolute inset-0 w-full h-full object-cover opacity-20 filter grayscale transition-transform duration-500 hover:scale-110">
+                            <div class="relative z-10">
+                                <blockquote class="text-lg italic text-gray-200 font-medium quote-text-shadow">"Teruslah berjalan di jalanmu, bahkan jika kamu hanya hidup untuk satu hari."</blockquote>
+                                <footer class="mt-4 text-right font-bold bts-gradient-text quote-text-shadow">- Jimin</footer>
+                            </div>
+                        </div>
+
+                        <div class="quote-card relative card-bg rounded-2xl p-6 h-full overflow-hidden flex flex-col justify-between">
+                             <img src="img/V.jpg" alt="V" class="absolute inset-0 w-full h-full object-cover opacity-20 filter grayscale transition-transform duration-500 hover:scale-110">
+                             <div class="relative z-10">
+                                <blockquote class="text-lg italic text-gray-200 font-medium quote-text-shadow">"Ungu adalah warna terakhir dari pelangi, artinya aku akan percaya dan mencintaimu untuk waktu yang sangat lama."</blockquote>
+                                <footer class="mt-4 text-right font-bold bts-gradient-text quote-text-shadow">- V</footer>
+                             </div>
+                        </div>
+                        
+                        <div class="quote-card relative card-bg rounded-2xl p-6 h-full overflow-hidden flex flex-col justify-between sm:col-span-2 lg:col-span-1 lg:col-start-2">
+                             <img src="img/junkok.jpg" alt="Jungkook" class="absolute inset-0 w-full h-full object-cover opacity-20 filter grayscale transition-transform duration-500 hover:scale-110">
+                             <div class="relative z-10">
+                                <blockquote class="text-lg italic text-gray-200 font-medium quote-text-shadow">"Upaya yang kamu lakukan akan membentuk dirimu. Kamu akan menyesal suatu hari nanti jika tidak melakukan yang terbaik sekarang."</blockquote>
+                                <footer class="mt-4 text-right font-bold bts-gradient-text quote-text-shadow">- Jungkook</footer>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="video-message" class="max-w-6xl mx-auto px-4 py-16">
+                <div class="text-center mb-16">
+                    <h3 class="section-title text-4xl font-bold bts-gradient-text mb-4">Sebuah Pesan Video</h3>
+                    <p class="section-text text-gray-300 max-w-3xl mx-auto">Last but not list, May all your wishes come true 🤲🏼.</p>
+                </div>
+                <div id="video-player-wrapper" class="w-full max-w-4xl mx-auto mt-12 rounded-2xl overflow-hidden shadow-2xl aspect-video bg-black/50">
+                    <video id="main-video" class="w-full h-full" controls preload="metadata">
+                        <source src="vid/ultah52.mp4" type="video/mp4">
+                        
+                    </video>
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="text-center py-8 border-t border-gray-800/50">
+            <p>&copy; <span id="year"></span> | Create By Sans23 untuk Ibu.<i data-lucide="heart" class="inline-block text-red-500 fill-current w-4 h-4"></i></p>
+        </footer>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://unpkg.com/lucide-icons@0.372.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+
+    <script>
+        window.addEventListener('load', () => {
+            gsap.registerPlugin(ScrollTrigger);
+            
+            const master = gsap.timeline();
+            master.add(preloaderTransition())
+                  .add(heroAnimation(), "-=0.5"); 
+
+            setupScrollAnimations();
+            setupAudioInteraction(); // Panggil fungsi baru untuk audio
+            
+            lucide.createIcons();
+            document.getElementById('year').textContent = new Date().getFullYear();
+
+            particlesJS("particles-js", { particles: { number: { value: 50 }, color: { value: "#ffffff" }, shape: { type: "circle" }, opacity: { value: 0.5, random: true }, size: { value: 2, random: true }, move: { enable: true, speed: 1, direction: "none", random: true, out_mode: "out" } }, interactivity: { detect_on: "canvas", events: { onhover: { enable: true, mode: "bubble" } }, modes: { bubble: { distance: 200, size: 4, duration: 2, opacity: 8 } } }, retina_detect: true });
+        });
+
+        function preloaderTransition() {
+            const tl = gsap.timeline();
+            tl.to("#preloader", { opacity: 0, duration: 0.75, onComplete: () => {
+                document.getElementById('preloader').style.display = 'none';
+            }})
+            .to("body", { opacity: 1, duration: 0.5 });
+            return tl;
+        }
+        
+        function fireConfetti() {
+            const canvas = document.getElementById('confetti-canvas');
+            const myConfetti = confetti.create(canvas, { resize: true, useWorker: true });
+            const duration = 5 * 1000;
+            const animationEnd = Date.now() + duration;
+            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0, colors: ['#9b59b6', '#e91e63', '#ffffff', '#f39c12'] };
+            function randomInRange(min, max) { return Math.random() * (max - min) + min; }
+            const interval = setInterval(function() {
+                const timeLeft = animationEnd - Date.now();
+                if (timeLeft <= 0) { return clearInterval(interval); }
+                const particleCount = 80 * (timeLeft / duration);
+                myConfetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0, 0.2), y: Math.random() - 0.2 } }));
+                myConfetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.8, 1), y: Math.random() - 0.2 } }));
+            }, 250);
+        }
+
+        function heroAnimation() {
+            const tl = gsap.timeline({ defaults: { ease: "power3.inOut" } });
+            tl.from("#logo-left-final", { xPercent: -101, duration: 1.5 })
+              .from("#logo-right-final", { xPercent: 101, duration: 1.5 }, "<")
+              .fromTo(".bts-logo-container svg", { filter: 'drop-shadow(0 0 10px rgba(155, 89, 182, 0.7))' }, { filter: 'drop-shadow(0 0 30px rgba(155, 89, 182, 1))', duration: 0.5, yoyo: true, repeat: 1 })
+              .to("#splash-text", { opacity: 1, duration: 1 }, "-=0.5")
+              .from("#splash-bts", { y: 20, opacity: 0, duration: 0.7 }, "<")
+              .from("#splash-army", { y: 20, opacity: 0, duration: 0.7 }, "<0.2")
+              .to({}, {duration: 1.2})
+              .to([".bts-logo-container", "#splash-text"], { scale: 0.5, opacity: 0, duration: 1, ease: "power3.in" })
+              .to("#hero-text", { opacity: 1, duration: 1.5, scale: 1, pointerEvents: 'auto', onComplete: fireConfetti }, "-=1")
+              .to("#scroll-indicator", { opacity: 1, duration: 1 }, "-=0.5");
+            return tl;
+        }
+        
+        // FUNGSI BARU UNTUK MENGELOLA SEMUA INTERAKSI AUDIO
+        function setupAudioInteraction() {
+            const bgMusic = document.getElementById('background-music');
+            const mainVideo = document.getElementById('main-video');
+            const musicToggle = document.getElementById('music-toggle');
+            const musicIcon = document.getElementById('music-icon');
+            
+            let musicWasPlaying = false;
+
+            // Fungsi untuk mencoba memutar musik
+            const playMusic = () => {
+                bgMusic.play().then(() => {
+                    musicIcon.setAttribute('data-lucide', 'volume-2');
+                    lucide.createIcons();
+                }).catch(() => {
+                    // Autoplay diblokir, biarkan ikon 'music'
+                    musicIcon.setAttribute('data-lucide', 'volume-x');
+                    lucide.createIcons();
+                });
+            };
+
+            // Tombol toggle untuk play/pause manual
+            musicToggle.addEventListener('click', () => {
+                if (bgMusic.paused) {
+                    playMusic();
+                } else {
+                    bgMusic.pause();
+                    musicIcon.setAttribute('data-lucide', 'volume-x');
+                    lucide.createIcons();
+                }
+            });
+
+            // Logika cerdas untuk interaksi dengan video
+            mainVideo.addEventListener('play', () => {
+                if (!bgMusic.paused) {
+                    musicWasPlaying = true;
+                    bgMusic.pause();
+                }
+            });
+
+            mainVideo.addEventListener('pause', () => {
+                if (musicWasPlaying) {
+                    playMusic();
+                    musicWasPlaying = false;
+                }
+            });
+
+            mainVideo.addEventListener('ended', () => {
+                if (musicWasPlaying) {
+                    playMusic();
+                    musicWasPlaying = false;
+                }
+            });
+            
+            // Mencoba autoplay setelah interaksi pertama (saat preloader hilang)
+            const startAttempt = () => {
+                playMusic();
+                // Hapus event listener agar tidak mencoba lagi
+                document.body.removeEventListener('click', startAttempt);
+                document.body.removeEventListener('scroll', startAttempt);
+            };
+            
+            // Gunakan interaksi apa pun untuk percobaan autoplay pertama
+             document.body.addEventListener('click', startAttempt, { once: true });
+             document.body.addEventListener('scroll', startAttempt, { once: true });
+        }
+
+        function setupScrollAnimations() {
+            const section1_tl = gsap.timeline({ scrollTrigger: { trigger: "#our-north-star", start: "top 60%" } });
+            section1_tl.from("#image-container", { x: -100, opacity: 0, duration: 1, ease: 'power3.out' })
+                       .from("#our-north-star .section-title, #our-north-star .section-text", { x: 100, opacity: 0, stagger: 0.2, duration: 1, ease: 'power3.out' }, "<");
+
+            gsap.from("#memory-constellation .section-title, #memory-constellation .section-text", {
+                scrollTrigger: { trigger: "#memory-constellation", start: "top 70%" },
+                y: 50, opacity: 0, stagger: 0.2, duration: 1
+            });
+            gsap.from(".quote-card", {
+                scrollTrigger: { trigger: "#memory-constellation .grid", start: "top 80%" },
+                y: 100, opacity: 0, stagger: 0.15, duration: 0.8, ease: "power2.out"
+            });
+            gsap.to("#parallax-image", {
+                yPercent: -15, ease: "none",
+                scrollTrigger: { trigger: "#memory-constellation", start: "top bottom", end: "bottom top", scrub: true }
+            });
+            gsap.from("#video-message .section-title, #video-message .section-text, #video-player-wrapper", {
+                scrollTrigger: { trigger: "#video-message", start: "top 80%" },
+                y: 100, opacity: 0, stagger: 0.2, duration: 1.2, ease: "power3.out"
+            });
+        }
+    </script>
+</body>
+</html>
+
